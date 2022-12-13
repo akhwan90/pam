@@ -40,7 +40,7 @@
                         </div>
                         <div class="form-group">
                             <label for="">Level</label>
-                            {!! Form::select('level', ['pegawai'=>'Pegawai', 'admin'=>'Admin'], $user->level, ['class'=>'form-control']) !!}
+                            {!! Form::select('level', ['pegawai'=>'Pegawai', 'admin'=>'Admin', 'pencatat_meter'=>'Pencatat Meter'], $user->level, ['class'=>'form-control']) !!}
                         </div>
                         <div class="form-group mt-2">
                             <button class="btn btn-outline-primary" type="submit"><i class="fa fa-check"></i> Simpan</button>
