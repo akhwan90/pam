@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\GolonganTarifController;
 
 /*
 |--------------------------------------------------------------------------
@@ -65,6 +66,15 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/addSave', [PelangganController::class, 'addSave'])->name('admin.pelanggan.addSave');
             Route::post('/editSave', [PelangganController::class, 'editSave'])->name('admin.pelanggan.editSave');
             Route::get('/remove/{idPegawai}', [PelangganController::class, 'remove'])->name('admin.pelanggan.remove');
+        });
+
+        Route::prefix('golonganTarif')->group(function () {
+            Route::get('/', [GolonganTarifController::class, 'index'])->name('admin.golonganTarif.index');
+            Route::get('/add', [GolonganTarifController::class, 'add'])->name('admin.golonganTarif.add');
+            Route::get('/edit/{idPegawai}', [GolonganTarifController::class, 'edit'])->name('admin.golonganTarif.edit');
+            Route::post('/addSave', [GolonganTarifController::class, 'addSave'])->name('admin.golonganTarif.addSave');
+            Route::post('/editSave', [GolonganTarifController::class, 'editSave'])->name('admin.golonganTarif.editSave');
+            Route::get('/remove/{idPegawai}', [GolonganTarifController::class, 'remove'])->name('admin.golonganTarif.remove');
         });
     });
 });

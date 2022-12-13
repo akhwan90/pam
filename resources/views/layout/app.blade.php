@@ -74,6 +74,12 @@
                         <span>Pelanggan</span>
                     </a>
                 </li>
+                <li class="nav-item @if($menuAktif=="golonganTarif") active @endif">
+                    <a class="nav-link" href="{{ url('/admin/golonganTarif') }}">
+                        <i class="fas fa-fw fa-tags"></i>
+                        <span>Gol. Tarif</span>
+                    </a>
+                </li>
             @endif
 
             @if (Auth::user()->level == "pegawai")
