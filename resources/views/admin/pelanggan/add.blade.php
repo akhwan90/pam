@@ -67,6 +67,10 @@
                             <label for="">Nomor HP</label>
                             {!! Form::text('nomor_hp', '', ['class'=>'form-control']) !!}
                         </div>
+                        <div class="form-group">
+                            <label for="">Golongan Tarif</label>
+                            {!! Form::select('golongan_tarif_id', $pGolonganTarif, '', ['class'=>'form-control']) !!}
+                        </div>
                         <div class="form-group mt-2">
                             <button class="btn btn-outline-primary" type="submit"><i class="fa fa-check"></i> Simpan</button>
                             <a href="{{ url('admin/pelanggan') }}" class="btn btn-outline-secondary"><i class="fa fa-arrow-left"></i> Kembali</a>
