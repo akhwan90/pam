@@ -9,6 +9,8 @@ use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\GolonganTarifController;
 
+use App\Http\Controllers\CatatMeterController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -75,6 +77,18 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/addSave', [GolonganTarifController::class, 'addSave'])->name('admin.golonganTarif.addSave');
             Route::post('/editSave', [GolonganTarifController::class, 'editSave'])->name('admin.golonganTarif.editSave');
             Route::get('/remove/{idPegawai}', [GolonganTarifController::class, 'remove'])->name('admin.golonganTarif.remove');
+        });
+    });
+
+    Route::prefix('pencatatMeter')->group(function () {
+
+        Route::prefix('catatMeter')->group(function () {
+            Route::get('/', [CatatMeterController::class, 'index'])->name('admin.pegawai.index');
+            Route::get('/add/{idPelanggan}', [CatatMeterController::class, 'add']);
+            Route::get('/edit/{idPelanggan}', [CatatMeterController::class, 'edit'])->name('admin.pegawai.edit');
+            Route::post('/addSave', [CatatMeterController::class, 'addSave'])->name('admin.pegawai.addSave');
+            Route::post('/editSave', [CatatMeterController::class, 'editSave'])->name('admin.pegawai.editSave');
+            Route::get('/remove/{idPegawai}', [CatatMeterController::class, 'remove'])->name('admin.pegawai.remove');
         });
     });
 });
