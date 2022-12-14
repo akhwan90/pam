@@ -26,8 +26,9 @@
                                 <thead>
                                 <tr>
                                     <th width="5%">No</th>
-                                    <th width="55%">Nama</th>
-                                    <th width="20%">Tarif</th>
+                                    <th width="45%">Nama</th>
+                                    <th width="15%">Tarif</th>
+                                    <th width="15%">Tarif Beban</th>
                                     <th width="20%">Aksi</th>
                                 </tr>
                                 </thead>
@@ -39,7 +40,8 @@
                                     <tr>
                                         <td>{{ $no }}</td>
                                         <td>{{ $item->nama }}</td>
-                                        <td>{{ $item->tarif }}</td>
+                                        <td>{{ number_format($item->tarif) }}</td>
+                                        <td>{{ number_format($item->tarif_beban) }}</td>
                                         <td>
                                             <div class="btn-group">
                                                 <a href="{{ url('admin/golonganTarif/edit/'.$item->id) }}" class="btn btn-outline-primary"><i class="fa fa-edit"></i> Edit</a>

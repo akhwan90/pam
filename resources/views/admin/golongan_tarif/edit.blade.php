@@ -34,6 +34,10 @@
                             <label for="">Tarif</label>
                             {!! Form::number('tarif', $data->tarif, ['class'=>'form-control']) !!}
                         </div>
+                        <div class="form-group">
+                            <label for="">Tarif Beban</label>
+                            {!! Form::number('tarif_beban', $data->tarif_beban, ['class'=>'form-control']) !!}
+                        </div>
                         <div class="form-group mt-2">
                             <button class="btn btn-outline-primary" type="submit"><i class="fa fa-check"></i> Simpan</button>
                             <a href="{{ url('admin/golonganTarif') }}" class="btn btn-outline-secondary"><i class="fa fa-arrow-left"></i> Kembali</a>

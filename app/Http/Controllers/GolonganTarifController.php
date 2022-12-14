@@ -39,11 +39,13 @@ class GolonganTarifController extends Controller
         $credentials = request()->validate([
             'nama' => ['required'],
             'tarif' => ['required'],
+            'tarif_beban' => ['required'],
         ]);
 
         GolonganTarif::insert([
             'nama' => request('nama'),
             'tarif' => request('tarif'),
+            'tarif_beban' => request('tarif_beban'),
             'created_at' => Carbon::now('utc')->toDateTimeString()
         ]);
 
@@ -55,11 +57,13 @@ class GolonganTarifController extends Controller
         $credentials = request()->validate([
             'nama' => ['required'],
             'tarif' => ['required'],
+            'tarif_beban' => ['required'],
         ]);
 
         GolonganTarif::whereId(request('id'))->update([
             'nama' => request('nama'),
             'tarif' => request('tarif'),
+            'tarif_beban' => request('tarif_beban'),
             'updated_at' => Carbon::now('utc')->toDateTimeString()
         ]);
 

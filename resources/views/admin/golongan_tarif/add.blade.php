@@ -30,8 +30,12 @@
                             {!! Form::text('nama', '', ['class'=>'form-control']) !!}
                         </div>
                         <div class="form-group">
-                            <label for="">Tarif</label>
+                            <label for="">Tarif per m3</label>
                             {!! Form::number('tarif', '', ['class'=>'form-control']) !!}
+                        </div>
+                        <div class="form-group">
+                            <label for="">Tarif Beban</label>
+                            {!! Form::number('tarif_beban', '', ['class'=>'form-control']) !!}
                         </div>
                         <div class="form-group mt-2">
                             <button class="btn btn-outline-primary" type="submit"><i class="fa fa-check"></i> Simpan</button>
