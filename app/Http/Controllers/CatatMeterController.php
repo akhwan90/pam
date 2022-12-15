@@ -6,9 +6,11 @@ use App\Models\GolonganTarif;
 use App\Models\Pelanggan;
 use App\Models\CatatMeter;
 use App\Models\Pegawai;
+use App\Models\TransaksiBayar;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use stdClass;
 
 class CatatMeterController extends Controller
 {
@@ -42,8 +44,14 @@ class CatatMeterController extends Controller
 
     public function index()
     {
-        $periode['tahun'] = $this->getPeriode()['periode_tahun'];
-        $periode['bulan'] = $this->getPeriode()['periode_bulan'];
+        if (!empty(request('periode'))) {
+            $pcPeriode = explode("-", request('periode'));
+            $periode['tahun'] = $pcPeriode[0];
+            $periode['bulan'] = $pcPeriode[1];
+        } else {
+            $periode['tahun'] = $this->getPeriode()['periode_tahun'];
+            $periode['bulan'] = $this->getPeriode()['periode_bulan'];
+        }
 
         $data['menuAktif'] = 'catatMeter';
         $data['datas'] = Pelanggan::leftJoin('catat_meter', function($q) use ($periode) {
@@ -55,48 +63,21 @@ class CatatMeterController extends Controller
         ->select(
             'catat_meter.id AS id_catat',
             'catat_meter.posisi_meter', 
+            'catat_meter.biaya_beban', 
+            'catat_meter.periode_tahun', 
+            'catat_meter.periode_bulan',
+            'catat_meter.status_bayar', 
+            'catat_meter.penggunaan', 
             'pelanggans.id AS pelanggan_id',
             'pelanggans.nama',
             'golongan_tarifs.tarif',
-            'golongan_tarifs.nama AS nama_golongan_tarif'
+            'golongan_tarifs.nama AS nama_golongan_tarif',
         )
         ->paginate(100);
 
         $data['periode'] = $periode;
 
         return view('pencatat_meter.catat_meter.index', $data);
-    }
-
-    public function add($idPelanggan)
-    {
-        $data['menuAktif'] = 'catatMeter';
-        $data['detilPelanggan'] = Pelanggan::where('pelanggans.id', $idPelanggan)
-        ->join('golongan_tarifs', 'pelanggans.golongan_tarif_id', '=', 'golongan_tarifs.id')
-        ->select(
-            'pelanggans.*',
-            'golongan_tarifs.nama AS nama_golongan_tarif',
-            'golongan_tarifs.tarif'
-        )
-        ->first();
-
-        
-        $posisiMeterSebelumnya = CatatMeter::where('pelanggan_id', $idPelanggan)
-        ->select(
-            'posisi_meter',
-            'periode_tahun',
-            'periode_bulan'
-        )
-        ->orderBy('id', 'desc')
-        ->limit(1)
-        ->first();
-
-        $data['posisiMeterSebelumnya'] = 0;
-        if (!empty($posisiMeterSebelumnya)) {
-            $data['posisiMeterSebelumnya'] = $posisiMeterSebelumnya->posisi_meter;
-        }
-        $data['posisiMeterEdit'] = 0;
-
-        return view('pencatat_meter.catat_meter.add', $data);
     }
 
     public function edit($idPelanggan)
@@ -115,32 +96,58 @@ class CatatMeterController extends Controller
         // get periode sebelum
         $periodeSebelum = $this->getPeriode();
 
-        $posisiMeterSebelumnya = CatatMeter::where('pelanggan_id', $idPelanggan)
+        $getDetilPeriodeSebelumnya = CatatMeter::where('pelanggan_id', $idPelanggan)
         ->where('periode_tahun', $periodeSebelum['periodeLaluTahun'])
         ->where('periode_bulan', $periodeSebelum['periodeLaluBulan'])
         ->select(
             'posisi_meter',
             'periode_tahun',
-            'periode_bulan'
+            'periode_bulan',
+            'catat_meter.penggunaan_tarif',
+            'catat_meter.status_bayar',
+            'catat_meter.biaya_beban'
         )
         ->first();
+
+        $data['detilPeriodeSebelumnya'] = $getDetilPeriodeSebelumnya;
+        if (empty($getDetilPeriodeSebelumnya)) {
+            $getDetilPeriodeSebelumnya = new stdClass();
+            $getDetilPeriodeSebelumnya->posisi_meter = 0;
+            $getDetilPeriodeSebelumnya->periode_tahun = $periodeSebelum['periodeLaluTahun'];
+            $getDetilPeriodeSebelumnya->periode_bulan = $periodeSebelum['periodeLaluBulan'];
+            $getDetilPeriodeSebelumnya->penggunaan_tarif = 0;
+            $getDetilPeriodeSebelumnya->status_bayar = 0;
+            $getDetilPeriodeSebelumnya->biaya_beban = 0;
+            $data['detilPeriodeSebelumnya'] = $getDetilPeriodeSebelumnya;
+        }
+        
+        $data['posisiMeterSebelumnya'] = 0;
+        if (!empty($getDetilPeriodeSebelumnya)) {
+            $data['posisiMeterSebelumnya'] = $getDetilPeriodeSebelumnya->posisi_meter;
+        }
+
 
         $getPosisiSekarang = CatatMeter::where('pelanggan_id', $idPelanggan)
         ->where('periode_tahun', $periodeSebelum['periode_tahun'])
         ->where('periode_bulan', $periodeSebelum['periode_bulan'])
         ->select(
             'posisi_meter',
+            'penggunaan',
+            'penggunaan_tarif'
         )
         ->first();
-
-        $data['posisiMeterSebelumnya'] = 0;
-        if (!empty($posisiMeterSebelumnya)) {
-            $data['posisiMeterSebelumnya'] = $posisiMeterSebelumnya->posisi_meter;
+        
+        $data['posisiMeterPeriodeSekarang'] = $getPosisiSekarang;
+        if (empty($getPosisiSekarang)) {
+            $getPosisiSekarang = new stdClass();
+            $getPosisiSekarang->posisi_meter = 0;
+            $getPosisiSekarang->penggunaan = 0;
+            $getPosisiSekarang->penggunaan_tarif = 0;
+            $data['posisiMeterPeriodeSekarang'] = $getPosisiSekarang;
         }
 
-        $data['posisiMeterEdit'] = $getPosisiSekarang->posisi_meter;
 
-        return view('pencatat_meter.catat_meter.add', $data);
+        return view('pencatat_meter.catat_meter.edit', $data);
     }
 
     public function addSave()
@@ -156,6 +163,15 @@ class CatatMeterController extends Controller
         $getPegawaiId = Pegawai::where('user_id', $userId)->first();
         $pegawaiId = $getPegawaiId->id;
         
+        $idPelanggan = intval(request('idPelanggan'));
+
+        // get tarif dan biaya beban
+        $getDetilPelanggan = Pelanggan::where('pelanggans.id', $idPelanggan)
+        ->join('golongan_tarifs', 'pelanggans.golongan_tarif_id', '=', 'golongan_tarifs.id')
+        ->select(
+            'golongan_tarifs.*'
+        )
+        ->first();
 
         $penggunaan = request('posisi_sekarang') - request('posisiPeriodeSebelumnya');
         $biayaPenggunaan = $penggunaan * request('tarif');
@@ -168,14 +184,15 @@ class CatatMeterController extends Controller
         // cek sudah ada
         $cekSudahAda = CatatMeter::where('periode_tahun', $periodeTahun)
         ->where('periode_bulan', $periodeBulan)
-        ->where('pelanggan_id', request('idPelanggan'))
+        ->where('pelanggan_id', $idPelanggan)
         ->first();
+
 
         if (empty($cekSudahAda)) {
             CatatMeter::insert([
                 'periode_tahun'=>$periodeTahun,
                 'periode_bulan'=>$periodeBulan,
-                'pelanggan_id'=>request('idPelanggan'),
+                'pelanggan_id'=>$idPelanggan,
                 'posisi_meter'=>request('posisi_sekarang'),
                 'penggunaan'=>$penggunaan,
                 'penggunaan_tarif'=>$biayaPenggunaan,
@@ -183,7 +200,8 @@ class CatatMeterController extends Controller
                 'metode_bayar'=>1,
                 'pegawai_id'=>$pegawaiId,
                 'user_id'=>$userId,
-                'created_at' => Carbon::now('utc')->toDateTimeString()
+                'created_at' => Carbon::now('utc')->toDateTimeString(),
+                'biaya_beban'=> $getDetilPelanggan->tarif_beban,
             ]);
         } else {
             CatatMeter::where('id', $cekSudahAda->id)->update([
@@ -192,7 +210,8 @@ class CatatMeterController extends Controller
                 'penggunaan_tarif' => $biayaPenggunaan,
                 'pegawai_id' => $pegawaiId,
                 'user_id' => $userId,
-                'updated_at' => Carbon::now('utc')->toDateTimeString()
+                'updated_at' => Carbon::now('utc')->toDateTimeString(),
+                'biaya_beban' => $getDetilPelanggan->tarif_beban,
             ]);
         }
 

@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title', 'Catat Meter Periode '.getBulanIndo($periode['bulan']).' '.$periode['tahun'])
+@section('title', 'Pembayaran '.getBulanIndo($periode['bulan']).' '.$periode['tahun'])
 
 @section('content')
     <div class="container-fluid">
@@ -72,10 +72,8 @@
                                         <td>
                                             <div class="btn-group">
                                                 @if ($item->status_bayar == 0)
-                                                @if (empty($item->id_catat))
-                                                    <a href="{{ url('pencatatMeter/catatMeter/edit/'.$item->pelanggan_id.'?tahun='.$item->periode_tahun.'&bulan='.$item->periode_bulan) }}" class="btn btn-outline-primary btn-sm"><i class="fa fa-edit"></i> Catat</a>              
-                                                @else
-                                                    <a href="{{ url('pencatatMeter/catatMeter/edit/'.$item->pelanggan_id.'?tahun='.$item->periode_tahun.'&bulan='.$item->periode_bulan) }}" class="btn btn-outline-warning btn-sm"><i class="fa fa-edit"></i> Edit</a>                      
+                                                @if (!empty($item->id_catat))
+                                                    <a href="{{ url('pencatatMeter/pembayaran/bayar/'.$item->pelanggan_id.'?tahun='.$item->periode_tahun.'&bulan='.$item->periode_bulan) }}" class="btn btn-outline-warning btn-sm"><i class="fa fa-arrow-right"></i> Bayar</a>                      
                                                 @endif
 
                                                 @else            

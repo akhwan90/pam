@@ -10,6 +10,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\GolonganTarifController;
 
 use App\Http\Controllers\CatatMeterController;
+use App\Http\Controllers\PembayaranController;
 
 /*
 |--------------------------------------------------------------------------
@@ -87,8 +88,15 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/add/{idPelanggan}', [CatatMeterController::class, 'add']);
             Route::get('/edit/{idPelanggan}', [CatatMeterController::class, 'edit'])->name('admin.pegawai.edit');
             Route::post('/addSave', [CatatMeterController::class, 'addSave'])->name('admin.pegawai.addSave');
-            Route::post('/editSave', [CatatMeterController::class, 'editSave'])->name('admin.pegawai.editSave');
-            Route::get('/remove/{idPegawai}', [CatatMeterController::class, 'remove'])->name('admin.pegawai.remove');
+        });
+
+        Route::prefix('pembayaran')->group(function () {
+            Route::get('/', [PembayaranController::class, 'index'])->name('admin.pegawai.index');
+
+            Route::get('/bayar/{idPelanggan}', [PembayaranController::class, 'bayar'])->name('admin.pegawai.bayar');
+            Route::post('/bayarSave', [PembayaranController::class, 'bayarSave'])->name('admin.pegawai.bayarSave');
         });
     });
+
+    
 });

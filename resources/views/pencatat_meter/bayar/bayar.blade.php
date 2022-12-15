@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title', 'Catat Meter')
+@section('title', 'Pembayaran Tagihan')
 
 @section('content')
     <div class="container-fluid">
@@ -24,12 +24,16 @@
                             <div class="alert alert-danger">{{ $errors->first() }}</div>
                         @endif
                         
-                        {!! Form::open(['url'=>url('pencatatMeter/catatMeter/addSave')]) !!}
+                        {!! Form::open(['url'=>url('pencatatMeter/pembayaran/bayarSave')]) !!}
                         {!! Form::hidden('idPelanggan', $detilPelanggan->id) !!}
-                        {!! Form::hidden('tarif', $detilPelanggan->tarif, ['id'=>'tarif']) !!}
-                        {!! Form::hidden('posisiPeriodeSebelumnya', $posisiMeterSebelumnya, ['id'=>'posisiPeriodeSebelumnya']) !!}
+                        {!! Form::hidden('tahun', $posisiMeterPeriodeSekarang->periode_tahun) !!}
+                        {!! Form::hidden('bulan', $posisiMeterPeriodeSekarang->periode_bulan) !!}
                     
                         <table class="table table-sm">
+                            <tr>
+                                <td>ID Pelanggan</td>
+                                <td>{{ $detilPelanggan->id }}</td>
+                            </tr>
                             <tr>
                                 <td width="30%">Nama Pelanggan</td>
                                 <td width="70%">{{ $detilPelanggan->nama }}</td>
@@ -43,35 +47,44 @@
                                 <td>{{ $detilPelanggan->nama_golongan_tarif." (".number_format($detilPelanggan->tarif)."/m3) " }}</td>
                             </tr>
                             <tr>
-                                <td>Posisi Meter Sebelumnya</td>
-                                <td>{{ $posisiMeterSebelumnya }}</td>
+                                <td>Periode</td>
+                                <td>{{ getBulanIndo($posisiMeterPeriodeSekarang->periode_bulan)." ".$posisiMeterPeriodeSekarang->periode_tahun }}</td>
+                            </tr>
+                            <tr>
+                                <td>Posisi Meter Awal</td>
+                                <td>{{ round($posisiMeterPeriodeSekarang->posisi_meter - $posisiMeterPeriodeSekarang->penggunaan) }}</td>
+                            </tr>
+                            <tr>
+                                <td>Posisi Meter Akhir</td>
+                                <td>{{ round($posisiMeterPeriodeSekarang->penggunaan) }}</td>
+                            </tr>
+                            <tr>
+                                <td>Penggunaan</td>
+                                <td>{{ round($posisiMeterPeriodeSekarang->posisi_meter) }}</td>
+                            </tr>
+                            <tr>
+                                <td>Biaya Penggunaan</td>
+                                <td>{{ round($posisiMeterPeriodeSekarang->penggunaan_tarif) }}</td>
+                            </tr>
+                            <tr>
+                                <td>Biaya Beban</td>
+                                <td>{{ round($detilPelanggan->tarif_beban) }}</td>
                             </tr>
                         </table>
 
                         <div class="row">
                             <div class="col-lg-3">
                                 <div class="form-group">
-                                    <label for="">Posisi Meter Sekarang</label>
-                                    {!! Form::number('posisi_sekarang', $posisiMeterEdit, ['class'=>'form-control', 'id'=>'posisi_sekarang']) !!}
+                                    <label for="">Yang harus dibayarkan</label>
+                                    {!! Form::number('yang_harus_dibayar', round($detilPelanggan->tarif_beban + $posisiMeterPeriodeSekarang->penggunaan_tarif), ['class'=>'form-control form-control-lg', 'id'=>'yang_harus_dibayar']) !!}
                                 </div>
                             </div>
-                            <div class="col-lg-3">
-                                <div class="form-group">
-                                    <label for="">Jumlah Penggunaan</label>
-                                    {!! Form::number('jumlah_penggunaan', 0, ['class'=>'form-control', 'id'=>'jumlah_penggunaan', 'readonly'=>true]) !!}
-                                </div>
-                            </div>
-                            <div class="col-lg-3">
-                                <div class="form-group">
-                                    <label for="">Yang Harus Dibayarkan</label>
-                                    {!! Form::number('jumlah_dibayar', 0, ['class'=>'form-control', 'id'=>'jumlah_dibayar', 'readonly'=>true]) !!}
-                                </div>
-                            </div>
+
                         </div>
                         
                         <div class="form-group mt-2">
-                            <button class="btn btn-outline-primary" type="submit"><i class="fa fa-check"></i> Simpan</button>
-                            <a href="{{ url('pencatatMeter/catatMeter') }}" class="btn btn-outline-secondary"><i class="fa fa-arrow-left"></i> Kembali</a>
+                            <button class="btn btn-outline-primary btn-lg" type="submit"><i class="fa fa-check"></i> Bayarkan</button>
+                            <a href="{{ url('pencatatMeter/catatMeter') }}" class="btn btn-outline-secondary btn-lg"><i class="fa fa-arrow-left"></i> Kembali</a>
                         </div>
 
                         {!! Form::close() !!}

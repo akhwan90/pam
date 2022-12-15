@@ -110,6 +110,12 @@
                         <span>Catat Meter</span>
                     </a>
                 </li>
+                <li class="nav-item @if($menuAktif=="pencatatMeterBayar") active @endif">
+                    <a class="nav-link" href="{{ url('/pencatatMeter/pembayaran') }}">
+                        <i class="fas fa-fw fa-money-bill"></i>
+                        <span>Terima Pembayaran</span>
+                    </a>
+                </li>
             @endif
 
 
