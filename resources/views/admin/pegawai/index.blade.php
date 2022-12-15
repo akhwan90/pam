@@ -42,8 +42,8 @@
                                         <td>{{ $item->nama }}</td>
                                         <td>
                                             <div class="btn-group">
-                                                <a href="{{ url('admin/pegawai/edit/'.$item->id) }}" class="btn btn-outline-primary"><i class="fa fa-edit"></i> Edit</a>
-                                                <a href="{{ url('admin/pegawai/remove/'.$item->id) }}" class="btn btn-outline-danger" onclick="return confirm('Anda yakin..?')"><i class="fa fa-times"></i> Hapus</a>
+                                                <a href="{{ url('admin/pegawai/edit/'.$item->id) }}" class="btn btn-outline-primary btn-sm"><i class="fa fa-edit"></i> Edit</a>
+                                                <a href="{{ url('admin/pegawai/remove/'.$item->id) }}" class="btn btn-outline-danger btn-sm" onclick="return confirm('Anda yakin..?')"><i class="fa fa-times"></i> Hapus</a>
                                             </div>
                                         </td>
                                     </tr>

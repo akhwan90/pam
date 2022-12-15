@@ -13,116 +13,42 @@ class ProfileController extends Controller
 {
     //
 
-    public function settingJft()
-    {   
-        $getGroupJft = JftGroup::pluck('nama', 'group_id');
-        $getDetil = Pegawai::where('user_id', Auth::user()->id)->first();
-
-        $data['pJenjangJft'] = [];
-        $data['disabled'] = true;
-        if (!empty($getDetil)) {
-            $getJenjangTerpilih = JftJenjang::join('jft_2_kategori', 'jft_3_jenjang.kategori_id', '=', 'jft_2_kategori.kategori_id')
-            ->where('jft_2_kategori.group_id', $getDetil->jft_group_id)
-            ->pluck('jft_3_jenjang.nama', 'jft_3_jenjang.jenjang_id')
-            ->toArray();
-            
-            $data['disabled'] = false;
-            $data['pJenjangJft'] = $getJenjangTerpilih; 
-        }
-
-        $data['menuAktif'] = 'settingJft';
-        $data['detil'] = $getDetil;
-        $data['pGroupJft'] = $getGroupJft->prepend('-', '')->toArray();
-        return view('pegawai.profile.setting_jft', $data);
+    public function resetPassword()
+    {
+        $data['menuAktif'] = '';
+        return view('pages.reset_password', $data);
     }
 
-    public function settingJftSave()
+    public function resetPasswordSave()
     {
         $credentials = request()->validate([
-            'jft_group_id' => ['required'],
-            'jft_jenjang_id' => ['required'],
+            'p1' => ['required', 'min:6'],
+            'p2' => ['required', 'min:6', 'same:p3'],
+            'p3' => ['required', 'min:6'],
+        ], [
+            'p1.required'=>'Password lama diperlukan',
+            'p1.min'=>'Password lama minimal 6 karakter',
+            'p2.required' => 'Password baru diperlukan',
+            'p2.min' => 'Password baru minimal 6 karakter',
+            'p2.same' => 'Konfirmasi password baru harus sama',
         ]);
 
-        Pegawai::where('id', request('id_pegawai'))
-        ->update([
-            'jft_group_id' => request('jft_group_id'),
-            'jft_jenjang_id' => request('jft_jenjang_id'),
-        ]);
+        // cek password lama
+        
+        if (password_verify(request('p1'), Auth::user()->password)) {
+            $updatePassword = User::where('id', Auth::user()->id)
+            ->update([
+                'password'=>password_hash(request('p2'), PASSWORD_DEFAULT)
+            ]);
+
+            return redirect()->back()->with(['notif'=>'<div class="alert alert-success">Password berhasil diubah</div>']);
+        } else {
+            return redirect()->back()->withErrors(['password'=>'Password lama salah'])->withInput();
+        }
+
 
         return redirect()->back();
     }
 
-    public function getJenjangByGroupJft($groupId)
-    {
-        $getJenjangByGroupJft = JftJenjang::join('jft_2_kategori', 'jft_3_jenjang.kategori_id', '=', 'jft_2_kategori.kategori_id')
-        ->where('jft_2_kategori.group_id', $groupId)
-        ->select('jft_3_jenjang.nama', 'jft_3_jenjang.jenjang_id')->get();
 
-        return response()->json($getJenjangByGroupJft);
-    }
-
-    public function add()
-    {
-        $data['menuAktif'] = 'user';
-
-        return view('admin.user.add', $data);
-    }
-
-    public function edit($idUser)
-    {
-        $data['menuAktif'] = 'user';
-        $data['user'] = User::whereId($idUser)->first();
-
-        return view('admin.user.edit', $data);
-    }
-
-    public function addSave()
-    {
-        $credentials = request()->validate([
-            'username' => ['required', 'min:6', 'unique:users,email'],
-            'name' => ['required'],
-            'password' => ['required', 'min:6'],
-            'level'=>['required']
-        ]);
-
-        User::insert([
-            'name'=>request('name'),
-            'email'=>request('username'),
-            'password'=>password_hash(request('password'), PASSWORD_DEFAULT),
-            'level' => request('level'),
-            'created_at'=> Carbon::now('utc')->toDateTimeString()
-        ]);
-
-        return redirect('admin/user');
-    }
-
-    public function editSave()
-    {
-        $credentials = request()->validate([
-            'username' => ['required', 'min:6', 'unique:users,email,'. request('id')],
-            'name' => ['required'],
-            'level' => ['required']
-        ]);
-
-        $dataUser = [
-            'name' => request('name'),
-            'email' => request('username'),
-            'level' => request('level'),
-            'created_at' => Carbon::now('utc')->toDateTimeString()
-        ];
-
-        if (!empty(request('username'))) {
-            $dataUser['password'] = password_hash(request('password'), PASSWORD_DEFAULT);
-        }
-
-        User::whereId(request('id'))->update($dataUser);
-
-        return redirect('admin/user');
-    }
-
-    public function remove($idUser)
-    {
-        User::whereId($idUser)->delete();
-        return redirect('admin/user');
-    }
 }

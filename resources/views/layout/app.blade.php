@@ -80,22 +80,10 @@
                         <span>Gol. Tarif</span>
                     </a>
                 </li>
-            @endif
-
-            @if (Auth::user()->level == "pegawai")
-                <div class="sidebar-heading">
-                    Menu Pegawai
-                </div>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url('/pegawai/settingJft') }}">
-                        <i class="fas fa-fw fa-wrench"></i>
-                        <span>Setting JFT</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url('/pegawai/kegiatan') }}">
-                        <i class="fas fa-fw fa-users"></i>
-                        <span>Laporan Kegiatan</span>
+                <li class="nav-item @if($menuAktif=="pegawaiBayar") active @endif">
+                    <a class="nav-link" href="{{ url('/admin/pembayaran') }}">
+                        <i class="fas fa-fw fa-money-bill"></i>
+                        <span>Terima Pembayaran</span>
                     </a>
                 </li>
             @endif
@@ -153,17 +141,9 @@
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="{{ url('resetPassword') }}">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Profile
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Settings
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Activity Log
+                                    Reset Password
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="{{ url('/logout') }}">
@@ -187,7 +167,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Aplikasi &copy; </span>
+                        <span>Aplikasi E-PAM &copy; {{ date('Y') }}</span>
                         {{-- <span>Aplikasi E-PAK &copy; Nama Instansi</span> --}}
                     </div>
                 </div>

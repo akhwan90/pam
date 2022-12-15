@@ -1,6 +1,7 @@
 @extends('layout.app')
 
-@section('title', 'Edit Data User')
+@section('title', 'Reset Password')
+{{-- @section('title', 'Aplikasi E-PAK - JFT Pranata Komputer') --}}
 
 @section('content')
     <div class="container-fluid">
@@ -19,33 +20,32 @@
                         <h6 class="m-0 font-weight-bold text-primary">@yield('title')</h6>
                     </div>
                     <div class="card-body">
-                        
+
                         @if ($errors->isNotEmpty())
                             <div class="alert alert-danger">{{ $errors->first() }}</div>
                         @endif
+
+                        {!! session('notif') !!}
                         
-                        {!! Form::open(['url'=>url('admin/user/editSave')]) !!}
-                        {!! Form::hidden('id', $user->id) !!}
+                        {!! Form::open(['url'=>url('resetPasswordSave')]) !!}
                         <div class="form-group">
-                            <label for="">Username</label>
-                            {!! Form::text('username', $user->email, ['class'=>'form-control']) !!}
+                            <label for="">Password Lama</label>
+                            {!! Form::text('p1', '', ['class'=>'form-control']) !!}
                         </div>
                         <div class="form-group">
-                            <label for="">Nama</label>
-                            {!! Form::text('name', $user->name, ['class'=>'form-control']) !!}
+                            <label for="">Password Baru</label>
+                            {!! Form::text('p2', '', ['class'=>'form-control']) !!}
                         </div>
                         <div class="form-group">
-                            <label for="">Password</label>
-                            {!! Form::text('password', '', ['class'=>'form-control']) !!}
+                            <label for="">Ulangi Password Baru</label>
+                            {!! Form::text('p3', '', ['class'=>'form-control']) !!}
                         </div>
-                        <div class="form-group">
-                            <label for="">Level</label>
-                            {!! Form::select('level', ['admin'=>'Admin', 'pencatat_meter'=>'Pencatat Meter'], $user->level, ['class'=>'form-control']) !!}
-                        </div>
+                        
                         <div class="form-group mt-2">
-                            <button class="btn btn-outline-primary" type="submit"><i class="fa fa-check"></i> Simpan</button>
-                            <a href="{{ url('admin/user') }}" class="btn btn-outline-secondary"><i class="fa fa-arrow-left"></i> Kembali</a>
+                            <button class="btn btn-outline-primary" type="submit"><i class="fa fa-check"></i> Ubah</button>
+                            <a href="{{ url('/') }}" class="btn btn-outline-secondary"><i class="fa fa-arrow-left"></i> Batal</a>
                         </div>
+
 
                         {!! Form::close() !!}
                     </div>

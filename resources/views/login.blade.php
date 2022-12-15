@@ -61,7 +61,8 @@
                                             <input type="password" name="password" class="form-control form-control-user"
                                                 id="exampleInputPassword" placeholder="Password">
                                         </div>
-                                        <button type="submit" class="btn btn-primary btn-user btn-block">Login</button>
+                                        <button type="submit" class="btn btn-primary btn-user btn-block"><i class="fa fa-check"></i> Login</button>
+                                        <a href="{{ url('cekRekening') }}" class="btn btn-warning btn-user btn-block"><i class="fa fa-search"></i> Cek Rekening</a>
                                     </form>
                                 </div>
                             </div>

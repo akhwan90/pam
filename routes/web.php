@@ -4,6 +4,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\UserController;
@@ -41,6 +42,8 @@ Route::post('/login', [AuthController::class, 'doLogin'])->name('doLogin');
 Route::middleware(['auth'])->group(function () {
     Route::get('/', [AuthController::class, 'dashboard'])->name('auth.dashboard');
     Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+    Route::get('/resetPassword', [ProfileController::class, 'resetPassword'])->name('auth.logout');
+    Route::post('/resetPasswordSave', [ProfileController::class, 'resetPasswordSave'])->name('auth.logout');
 
     Route::prefix('admin')->group(function () {
 
@@ -61,7 +64,6 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/editSave', [UserController::class, 'editSave'])->name('admin.user.editSave');
             Route::get('/remove/{idUser}', [UserController::class, 'remove'])->name('admin.user.remove');
         });
-
         Route::prefix('pelanggan')->group(function () {
             Route::get('/', [PelangganController::class, 'index'])->name('admin.pelanggan.index');
             Route::get('/add', [PelangganController::class, 'add'])->name('admin.pelanggan.add');
@@ -78,6 +80,13 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/addSave', [GolonganTarifController::class, 'addSave'])->name('admin.golonganTarif.addSave');
             Route::post('/editSave', [GolonganTarifController::class, 'editSave'])->name('admin.golonganTarif.editSave');
             Route::get('/remove/{idPegawai}', [GolonganTarifController::class, 'remove'])->name('admin.golonganTarif.remove');
+        });
+
+        Route::prefix('pembayaran')->group(function () {
+            Route::get('/', [PembayaranController::class, 'index'])->name('admin.pegawai.index');
+
+            Route::get('/bayar/{idPelanggan}', [PembayaranController::class, 'bayar'])->name('admin.pegawai.bayar');
+            Route::post('/bayarSave', [PembayaranController::class, 'bayarSave'])->name('admin.pegawai.bayarSave');
         });
     });
 
