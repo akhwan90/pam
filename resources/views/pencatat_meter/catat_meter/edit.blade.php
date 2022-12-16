@@ -74,7 +74,7 @@
                             <div class="col-lg-3">
                                 <div class="form-group">
                                     <label for="">Posisi Meter Sekarang</label>
-                                    {!! Form::number('posisi_sekarang', round($posisiMeterPeriodeSekarang->posisi_meter), ['class'=>'form-control form-control-lg', 'id'=>'posisi_sekarang']) !!}
+                                    {!! Form::number('posisi_sekarang', round($posisiMeterPeriodeSekarang->posisi_meter), ['class'=>'form-control form-control-lg', 'id'=>'posisi_sekarang', 'autofocus'=>true]) !!}
                                 </div>
                             </div>
                             <div class="col-lg-3">
