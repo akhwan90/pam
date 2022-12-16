@@ -72,6 +72,7 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/addSave', [PelangganController::class, 'addSave'])->name('admin.pelanggan.addSave');
             Route::post('/editSave', [PelangganController::class, 'editSave'])->name('admin.pelanggan.editSave');
             Route::get('/remove/{idPegawai}', [PelangganController::class, 'remove'])->name('admin.pelanggan.remove');
+            Route::get('/cetakQr/{idPegawai}', [PelangganController::class, 'cetakQr'])->name('admin.pelanggan.cetakQr');
         });
 
         Route::prefix('golonganTarif')->group(function () {
@@ -98,6 +99,8 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::prefix('pencatatMeter')->group(function () {
+
+        Route::get('/catatMeterQr', [CatatMeterController::class, 'qr'])->name('admin.pegawai.qr');
 
         Route::prefix('catatMeter')->group(function () {
             Route::get('/', [CatatMeterController::class, 'index'])->name('admin.pegawai.index');

@@ -219,4 +219,10 @@ class CatatMeterController extends Controller
 
         return redirect('pencatatMeter/catatMeter');
     }
+
+    public function qr()
+    {
+        $data['menuAktif'] = 'catatMeter';
+        return view('pencatat_meter.catat_meter.catat_via_qr', $data);
+    }
 }

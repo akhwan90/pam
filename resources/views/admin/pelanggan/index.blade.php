@@ -27,11 +27,11 @@
                                 <tr>
                                     <th width="5%">No</th>
                                     <th width="15%">No Pelanggan</th>
-                                    <th width="25%">Nama</th>
+                                    <th width="20%">Nama</th>
                                     <th width="15%">Dusun</th>
                                     <th width="10%">RT/RW</th>
                                     <th width="10%">Nomor HP</th>
-                                    <th width="20%">Aksi</th>
+                                    <th width="25%">Aksi</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -50,6 +50,7 @@
                                             <div class="btn-group">
                                                 <a href="{{ url('admin/pelanggan/edit/'.$item->id) }}" class="btn btn-outline-primary btn-sm"><i class="fa fa-edit"></i> Edit</a>
                                                 <a href="{{ url('admin/pelanggan/remove/'.$item->id) }}" class="btn btn-outline-danger btn-sm" onclick="return confirm('Anda yakin..?')"><i class="fa fa-times"></i> Hapus</a>
+                                                <a href="{{ url('admin/pelanggan/cetakQr/'.$item->id) }}" class="btn btn-outline-success btn-sm" target="_blank"><i class="fa fa-qrcode"></i> Cetak QR</a>
                                             </div>
                                         </td>
                                     </tr>

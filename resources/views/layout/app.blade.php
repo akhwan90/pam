@@ -99,6 +99,12 @@
                     Menu Pencatat Meter
                 </div>
                 <li class="nav-item @if($menuAktif=="catatMeter") active @endif">
+                    <a class="nav-link" href="{{ url('/pencatatMeter/catatMeterQr') }}">
+                        <i class="fas fa-fw fa-qrcode"></i>
+                        <span>Catat Dengan QR</span>
+                    </a>
+                </li>
+                <li class="nav-item @if($menuAktif=="catatMeter") active @endif">
                     <a class="nav-link" href="{{ url('/pencatatMeter/catatMeter') }}">
                         <i class="fas fa-fw fa-edit"></i>
                         <span>Catat Meter</span>
