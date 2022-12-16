@@ -41,8 +41,8 @@
     	let scanner = new Instascan.Scanner({ video: document.getElementById('preview'), scanPeriod: 1, mirror: false });
 
     	scanner.addListener('scan',function(content){
-            alert(content); 
-    		// window.location.href = lokasi;
+            // alert(content); 
+    		window.location.href = "{{ url('pencatatMeter/catatMeter/edit') }}/"+content;
 		});
 
     	Instascan.Camera.getCameras().then(function (cameras){
