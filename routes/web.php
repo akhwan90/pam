@@ -32,6 +32,7 @@ Route::get('/crtUser', function () {
         'email_verified_at'=>date('Y-m-d H:i:s'),
         'password'=>password_hash('admin123', PASSWORD_DEFAULT),
         'created_at'=>date('Y-m-d H:i:s'),
+        
     ]);
 });
 
