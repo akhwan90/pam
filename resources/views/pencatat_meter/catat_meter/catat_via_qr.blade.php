@@ -19,12 +19,14 @@
                         <h6 class="m-0 font-weight-bold text-primary">@yield('title')</h6>
                     </div>
                     <div class="card-body">
-                        <div class="alert alert-info"><i class="bx bx-camera"></i> Berikan izin, jika ada permintaan mengaktifkan kamera, kemudian arahkan kamera smartphone Anda, ke QR code yang ditampilkan di surat.</div>
-                        <select name="options" class="form-control mb-1">
+                        <video id="preview" poster="https://kunjungan.kulonprogokab.go.id/images/loading.gif" style="width: 100%"></video>
+
+                        <select name="options" class="form-control my-2">
                             <option value="2">Kamera Belakang</option>
                             <option value="1">Kamera Depan</option>
                         </select>
-                        <video id="preview" poster="https://kunjungan.kulonprogokab.go.id/images/loading.gif" style="width: 100%"></video>
+						
+                        <div class="alert alert-info"><i class="bx bx-camera"></i> Berikan izin, jika ada permintaan mengaktifkan kamera, kemudian arahkan kamera smartphone Anda, ke QR code yang ditampilkan di surat.</div>
                     </div>
                 </div>
 
