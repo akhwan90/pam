@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title', 'Aplikasi')
+@section('title', 'Aplikasi E-PAMSIMAS')
 {{-- @section('title', 'Aplikasi E-PAK - JFT Pranata Komputer') --}}
 
 @section('content')
@@ -20,7 +20,7 @@
                         <h6 class="m-0 font-weight-bold text-primary">@yield('title')</h6>
                     </div>
                     <div class="card-body">
-                        @yield('title')
+                        Selamat datang di @yield('title')
                     </div>
                 </div>
 

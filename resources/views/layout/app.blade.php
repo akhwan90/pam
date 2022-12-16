@@ -86,6 +86,12 @@
                         <span>Terima Pembayaran</span>
                     </a>
                 </li>
+                <li class="nav-item @if($menuAktif=="setting") active @endif">
+                    <a class="nav-link" href="{{ url('/admin/setting') }}">
+                        <i class="fas fa-fw fa-wrench"></i>
+                        <span>Setting</span>
+                    </a>
+                </li>
             @endif
 
             @if (Auth::user()->level == "pencatat_meter")

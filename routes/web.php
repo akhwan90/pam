@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\UserController;
@@ -87,6 +88,12 @@ Route::middleware(['auth'])->group(function () {
 
             Route::get('/bayar/{idPelanggan}', [PembayaranController::class, 'bayar'])->name('admin.pegawai.bayar');
             Route::post('/bayarSave', [PembayaranController::class, 'bayarSave'])->name('admin.pegawai.bayarSave');
+        });
+
+
+        Route::prefix('setting')->group(function () {
+            Route::get('/', [SettingController::class, 'index'])->name('admin.pegawai.index');
+            Route::post('/settingSave', [SettingController::class, 'settingSave'])->name('admin.pegawai.settingSave');
         });
     });
 

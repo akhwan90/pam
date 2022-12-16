@@ -21,11 +21,21 @@
                     <div class="card-body">
                         {!! session('error') !!}
 
-                        <form method="get" class="row mb-2">
-                            <div class="col-lg-3">
+                        <form method="get" class="form-row mb-2">
+                            <div class="col-lg-2 my-1">Lihat Bulan</div>
+                            <div class="col-lg-2">
                                 <div class="form-group">
-                                    <label for="basic-url" class="form-label">Lihat Periode</label>
-                                    <input type="month" name="periode" class="form-control" value="{{ request('periode') }}">
+                                    <input type="month" name="periode" class="form-control" value="{{ request('periode') }}" placeholder="Lihat Bulan">
+                                </div>
+                            </div>
+                            <div class="col-lg-2">
+                                <div class="form-group">
+                                    <input type="text" name="nama" class="form-control" value="{{ request('nama') }}" placeholder="Nama Pelanggan">
+                                </div>
+                            </div>
+                            <div class="col-lg-2">
+                                <div class="form-group">
+                                    <input type="text" name="dusun" class="form-control" value="{{ request('dusun') }}" placeholder="Nama Dusun">
                                 </div>
                             </div>
                             <div class="col-lg-2">

@@ -6,6 +6,7 @@ use App\Models\GolonganTarif;
 use App\Models\Pelanggan;
 use App\Models\CatatMeter;
 use App\Models\Pegawai;
+use App\Models\Setting;
 use App\Models\TransaksiBayar;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -18,8 +19,9 @@ class CatatMeterController extends Controller
 
     public function getPeriode()
     {
-        $tglBatasCatat = 15;
-        // $getTglSekarang =
+
+        $tglBatasCatat = Setting::where('name', 'TANGGAL_CATAT_PERIODE')
+        ->first()->value;
         
         $akhirPeriodeLalu = Carbon::now()->subMonthsNoOverflow()->endOfMonth();
         $periodeLaluTahun = $akhirPeriodeLalu->year;
