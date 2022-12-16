@@ -53,4 +53,8 @@
     e.preventDefault();
   });
 
+  if ($(window).width() < 768) {
+    $(".sidebar").addClass("toggled")
+  }
+
 })(jQuery); // End of use strict
