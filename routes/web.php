@@ -14,6 +14,8 @@ use App\Http\Controllers\GolonganTarifController;
 use App\Http\Controllers\CatatMeterController;
 use App\Http\Controllers\PembayaranController;
 
+use App\Http\Controllers\FrontController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -39,6 +41,8 @@ Route::get('/crtUser', function () {
 
 Route::get('/login', [AuthController::class, 'index'])->name('login');
 Route::post('/login', [AuthController::class, 'doLogin'])->name('doLogin');
+Route::get('/cekRekening', [FrontController::class, 'cekRekening'])->name('cekRekening');
+Route::post('/cekRekeningDo', [FrontController::class, 'cekRekeningDo'])->name('cekRekeningDo');
 
 
 Route::middleware(['auth'])->group(function () {
